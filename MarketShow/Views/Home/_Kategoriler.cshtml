@@ -1,0 +1,10 @@
+﻿@model List<Kategori>
+
+<div class="list-group">
+    @foreach (var item in Model)
+    {
+        <a href="@Url.Action("Index", "Home", new { kategoriId = item.Id })" class="list-group-item">
+            @item.KategoriAd
+        </a>
+    }
+</div>

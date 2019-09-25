@@ -1,0 +1,59 @@
+﻿@model Urun
+@{
+    ViewBag.Title = "Yeni Ürün";
+}
+
+<h2>Yeni Ürün Oluştur</h2>
+
+@using (Html.BeginForm("Yeni", "Urunler", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.UrunAd)
+        @Html.TextBoxFor(x => x.UrunAd, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.UrunAd, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.BirimFiyat)
+        @Html.TextBoxFor(x => x.BirimFiyat, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.BirimFiyat, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.KategoriId)
+        @Html.DropDownListFor(x => x.KategoriId, null, "Seçiniz", new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.KategoriId, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.Label("resim", "Ürün Görseli")
+        <div>
+            @Html.UrunImg(null, new { height = "100", id = "UrunGorsel" })
+        </div>
+        <input type="file" name="resim" id="resim" class="form-control-file" accept="image/*" />
+        @Html.ValidationMessage("resim", null,
+            new { @class = "text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Aciklama)
+        @Html.TextAreaFor(x => x.Aciklama, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Aciklama, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <button class="btn btn-primary">Kaydet</button>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        ResimOnizle("#resim", "#UrunGorsel");
+    </script>
+}

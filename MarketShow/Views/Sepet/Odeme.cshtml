@@ -1,0 +1,146 @@
+﻿@model OdemeViewModel
+@{
+    ViewBag.Title = "Odeme";
+    ViewBag.SideBarClass = "d-none";
+}
+
+<h2>Ödeme</h2>
+
+@Html.ValidationMessageFor(x => x.OdemeTutari, null, new { @class = "alert alert-warning" })
+
+<div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Sepetiniz</span>
+            <span class="badge badge-secondary badge-pill">@Html.SepetAdet()</span>
+        </h4>
+        <ul class="list-group mb-3">
+
+            @foreach (SepetOge oge in Html.Sepet())
+            {
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">@oge.UrunAd</h6>
+                        <small class="text-muted">x @oge.Adet</small>
+                    </div>
+                    <span class="text-muted">
+                        @oge.TutarMetin()₺
+                    </span>
+                </li>
+            }
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Toplam (TL)</span>
+                <strong>
+                    @string.Format("{0:0.00}₺", @Html.SepetTutar())
+                </strong>
+            </li>
+        </ul>
+
+    </div>
+    <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Fatura Adresi</h4>
+        <form action="@Url.Action("Odeme", "Sepet")" method="post" class="needs-validation" novalidate>
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    @Html.LabelFor(x => x.Ad)
+                    @Html.TextBoxFor(x => x.Ad, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Ad, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 mb-3">
+                    @Html.LabelFor(x => x.Soyad)
+                    @Html.TextBoxFor(x => x.Soyad, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Soyad, null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Email)
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Adres)
+                @Html.TextBoxFor(x => x.Adres, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Adres, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Adres2)
+                @Html.TextBoxFor(x => x.Adres2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Adres2, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    @Html.LabelFor(x => x.SehirId)
+                    @Html.DropDownListFor(x => x.SehirId, null, "Seçiniz", new { @class = "custom-select d-block w-100" })
+                    @Html.ValidationMessageFor(x => x.SehirId, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    @Html.LabelFor(x => x.PostaKodu)
+                    @Html.TextBoxFor(x => x.PostaKodu, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.PostaKodu, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr class="mb-4">
+
+            <h4 class="mb-3">Ödeme Bilgileri</h4>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    @Html.LabelFor(x => x.KKSahip)
+                    @Html.TextBoxFor(x => x.KKSahip, new { @class = "form-control" })
+                    <small class="text-muted">Kartın üzerindeki tam ad</small>
+                    @Html.ValidationMessageFor(x => x.KKSahip, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 mb-3">
+                    @Html.LabelFor(x => x.KKNo)
+                    @Html.TextBoxFor(x => x.KKNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.KKNo, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    @Html.LabelFor(x => x.KKSonKullanmaTarihi)
+                    @Html.TextBoxFor(x => x.KKSonKullanmaTarihi, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.KKSonKullanmaTarihi, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3 mb-3">
+                    @Html.LabelFor(x => x.KKCvv)
+                    @Html.TextBoxFor(x => x.KKCvv, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.KKCvv, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr class="mb-4">
+
+            <input type="hidden" name="OdemeTutari" value="@Html.SepetTutar()" />
+
+            <button class="btn btn-primary btn-lg btn-block mb-5" type="submit">Şimdi Öde</button>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        @if (HttpContext.Current.IsDebuggingEnabled)
+        {
+            <text>
+                $("#Ad").val("John");
+                $("#Soyad").val("Doe");
+                $("#Email").val("john.doe@example.com");
+                $("#Adres").val("Broadway St.");
+                $("#Adres2").val("Apt. 2");
+                $("#SehirId").val("6");
+                $("#PostaKodu").val("06100");
+                $("#KKSahip").val("John Doe");
+                $("#KKNo").val("1111222233334444");
+                $("#KKSonKullanmaTarihi").val("04/29");
+                $("#KKCvv").val("123");
+            </text>
+        }
+    </script>
+}

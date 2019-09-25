@@ -1,0 +1,90 @@
+﻿@model List<Urun>
+@{
+    ViewBag.Title = "Ürünler";
+}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Ürünler</h1>
+<p class="mb-4">Bu sayfada ürünleri görüntüleyebilir ve düzenleyebilirsiniz.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Ürünler</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ürün Adı</th>
+                        <th>Birim Fiyatı</th>
+                        <th>Kategori</th>
+                        <th>Açıklama</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Ürün Adı</th>
+                        <th>Birim Fiyatı</th>
+                        <th>Kategori</th>
+                        <th>Açıklama</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.UrunAd</td>
+                            <td>@item.BirimFiyat</td>
+                            <td>@item.Kategori.KategoriAd</td>
+                            <td>@item.Aciklama</td>
+                            <td>
+                                <a href="#" class="btn btn-danger" data-urun-sil="@item.Id">Sil</a>
+
+                                <a href="@Url.Action("Duzenle", "Urunler", new { id = item.Id })" class="btn btn-info">Düzenle</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<form id="silForm" action="@Url.Action("Sil", "Urunler")" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" id="silFormId" />
+</form>
+
+@section scripts {
+    <script>
+    $(function () {
+
+        //data-urun-sil attribute'una sahip herhangi bir element'e tıklanınca
+        $("[data-urun-sil]").click(function (e) {
+            // link'in default davranışı olan tıklanınca bir adrese gitmesini önle
+            e.preventDefault();
+
+            var id = $(this).data("urun-sil");
+
+            if (confirm("Silmek istediğinize emin misiniz?")) {
+                $("#silFormId").val(id);
+                $("#silForm").submit();
+            }
+
+        });
+
+        $("#dataTable").DataTable({
+            language: {
+                url: "@Url.Content("~/Areas/Admin/vendor/datatables/Turkish.json")"
+            }
+        });
+    });
+    </script>
+}

@@ -1,6 +1,10 @@
 namespace MarketShow.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using MarketShow.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -14,10 +18,177 @@ namespace MarketShow.Migrations
 
         protected override void Seed(MarketShow.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            // admin rolü yoksa oluþtur
+            if (!context.Roles.Any(x => x.Name == "admin"))
+            {
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore);
+                var role = new IdentityRole { Name = "admin" };
+                roleManager.Create(role);
+            }
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            // admin kullanýcýsý yoksa oluþtur ve admin rolü ata
+            if (!context.Users.Any(x => x.UserName == "admin@example.com"))
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                var user = new ApplicationUser
+                {
+                    Email = "admin@example.com",
+                    UserName = "admin@example.com",
+                    Ad = "Admin",
+                    Soyad = "User",
+                    EmailConfirmed = true
+                };
+
+                userManager.Create(user, "Ankara1.");
+                userManager.AddToRole(user.Id, "admin");
+            }
+
+            // örnek kategorileri ve ürünleri ekle
+            if (!context.Kategoriler.Any())
+            {
+                var kategori1 = new Kategori
+                {
+                    KategoriAd = "Ýçecekler"
+                };
+
+                kategori1.Urunler.Add(new Urun
+                {
+                    UrunAd = "Kola",
+                    BirimFiyat = 3.5m,
+                    Aciklama = "Serinleten lezzet. Soðuk içiniz."
+                });
+
+                kategori1.Urunler.Add(new Urun
+                {
+                    UrunAd = "Ayran",
+                    BirimFiyat = 3.5m,
+                    Aciklama = "Milli içeceðimiz. Ben koþarým anlamýna gelir."
+                });
+
+                context.Kategoriler.Add(kategori1);
+
+                context.Kategoriler.Add(new Kategori
+                {
+                    KategoriAd = "Süt Ürünleri"
+                });
+
+                var kategori3 = new Kategori
+                {
+                    KategoriAd = "Cep Telefonlarý"
+                };
+
+                kategori3.Urunler.Add(new Urun
+                {
+                    UrunAd = "IPhone X",
+                    BirimFiyat = 8000m,
+                    Aciklama = "Bir telefondan çok daha fazlasý."
+                });
+
+                context.Kategoriler.Add(kategori3);
+
+            }
+
+            // þehirleri ekle
+            if (!context.Sehirler.Any())
+            {
+                foreach (KeyValuePair<int, string> entry in TurkiyeIller())
+                {
+                    context.Sehirler.Add(
+                        new Models.Sehir { Id = entry.Key, SehirAd = entry.Value }
+                    );
+                }
+            }
+        }
+
+        private Dictionary<int, string> TurkiyeIller()
+        {
+            return new Dictionary<int, string>
+                {
+                    {1, "Adana"},
+                    {2, "Adýyaman"},
+                    {3, "Afyonkarahisar"},
+                    {4, "Aðrý"},
+                    {5, "Amasya"},
+                    {6, "Ankara"},
+                    {7, "Antalya"},
+                    {8, "Artvin"},
+                    {9, "Aydýn"},
+                    {10, "Balýkesir"},
+                    {11, "Bilecik"},
+                    {12, "Bingöl"},
+                    {13, "Bitlis"},
+                    {14, "Bolu"},
+                    {15, "Burdur"},
+                    {16, "Bursa"},
+                    {17, "Çanakkale"},
+                    {18, "Çankýrý"},
+                    {19, "Çorum"},
+                    {20, "Denizli"},
+                    {21, "Diyarbakýr"},
+                    {22, "Edirne"},
+                    {23, "Elazýð"},
+                    {24, "Erzincan"},
+                    {25, "Erzurum"},
+                    {26, "Eskiþehir"},
+                    {27, "Gaziantep"},
+                    {28, "Giresun"},
+                    {29, "Gümüþhane"},
+                    {30, "Hakkari"},
+                    {31, "Hatay"},
+                    {32, "Isparta"},
+                    {33, "Mersin"},
+                    {34, "Ýstanbul"},
+                    {35, "Ýzmir"},
+                    {36, "Kars"},
+                    {37, "Kastamonu"},
+                    {38, "Kayseri"},
+                    {39, "Kýrklareli"},
+                    {40, "Kýrþehir"},
+                    {41, "Kocaeli"},
+                    {42, "Konya"},
+                    {43, "Kütahya"},
+                    {44, "Malatya"},
+                    {45, "Manisa"},
+                    {46, "Kahramanmaraþ"},
+                    {47, "Mardin"},
+                    {48, "Muðla"},
+                    {49, "Muþ"},
+                    {50, "Nevþehir"},
+                    {51, "Niðde"},
+                    {52, "Ordu"},
+                    {53, "Rize"},
+                    {54, "Sakarya"},
+                    {55, "Samsun"},
+                    {56, "Siirt"},
+                    {57, "Sinop"},
+                    {58, "Sivas"},
+                    {59, "Tekirdað"},
+                    {60, "Tokat"},
+                    {61, "Trabzon"},
+                    {62, "Tunceli"},
+                    {63, "Þanlýurfa"},
+                    {64, "Uþak"},
+                    {65, "Van"},
+                    {66, "Yozgat"},
+                    {67, "Zonguldak"},
+                    {68, "Aksaray"},
+                    {69, "Bayburt"},
+                    {70, "Karaman"},
+                    {71, "Kýrýkkale"},
+                    {72, "Batman"},
+                    {73, "Þýrnak"},
+                    {74, "Bartýn"},
+                    {75, "Ardahan"},
+                    {76, "Iðdýr"},
+                    {77, "Yalova"},
+                    {78, "Karabük"},
+                    {79, "Kilis"},
+                    {80, "Osmaniye"},
+                    {81, "Düzce"}
+                };
         }
     }
 }

@@ -25,6 +25,7 @@ namespace MarketShow.Models
 
 
         [Display(Name = "Açıklama")]
+        [StringLength(50,ErrorMessage ="Açıklama 50 Krakterden fazla olamaz.")]
         public string Aciklama { get; set; }
 
 

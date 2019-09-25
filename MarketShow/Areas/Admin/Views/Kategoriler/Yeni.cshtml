@@ -1,0 +1,24 @@
+﻿@model Kategori
+@{
+    ViewBag.Title = "Yeni";
+}
+
+<h2>Yeni Kategori Oluştur</h2>
+
+@using (Html.BeginForm("Yeni", "Kategoriler", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.KategoriAd)
+        @Html.TextBoxFor(x => x.KategoriAd, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.KategoriAd, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <button class="btn btn-primary">Kaydet</button>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

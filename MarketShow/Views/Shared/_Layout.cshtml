@@ -16,7 +16,7 @@
     <link href="~/Content/fontawesome-all.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="~/Content/shop-homepage.css" rel="stylesheet" />
+    <link href="~/Content/shop-home-page.css" rel="stylesheet" />
 
 </head>
 
@@ -25,7 +25,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Ne Ararsan Market</a>
+            <a class="navbar-brand" href="#">Market Show</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,7 +49,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index","Sepet")">
                             <i class="fas fa-shopping-cart"></i>
-                            @*Sepetim(<span class="SepetAdet">@Html.SepetAdet()</span>)*@
+                            Sepetim(<span class="SepetAdet">@Html.SepetAdet()</span>)
                         </a>
                     </li>
 
@@ -132,7 +132,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Ne Ararsan Market 2019</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Market Show 2019</p>
         </div>
         <!-- /.container -->
     </footer>
@@ -140,7 +140,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    @*https://notifyjs.jpillora.com/*@xx
+    @*https://notifyjs.jpillora.com/*@
     <script src="~/Scripts/notify.min.js"></script>
     @RenderSection("scripts", false)
 </body>

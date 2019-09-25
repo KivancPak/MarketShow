@@ -1,0 +1,22 @@
+﻿@model Kategori
+@{
+    ViewBag.Title = "Düzenle";
+}
+
+<h2>Kategori Düzenle</h2>
+
+@using (Html.BeginForm("Duzenle", "Kategoriler", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.KategoriAd)
+        @Html.TextBoxFor(x => x.KategoriAd, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.KategoriAd, null,
+            new { @class = "text-danger"})
+    </div>
+
+    <button class="btn btn-primary">Kaydet</button>
+}
+

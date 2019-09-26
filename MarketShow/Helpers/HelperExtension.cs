@@ -51,11 +51,12 @@ namespace MarketShow.Helpers
             resimYolu = VirtualPathUtility.ToAbsolute(resimYolu);
 
             // https://stackoverflow.com/a/9669688
+
             var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes) as IDictionary<string, object>;
 
             TagBuilder tag = new TagBuilder("img");
-            tag.MergeAttribute("src", resimYolu);
             tag.MergeAttributes(attributes);
+            tag.MergeAttribute("src", resimYolu);
 
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));

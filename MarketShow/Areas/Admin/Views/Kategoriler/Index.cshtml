@@ -36,9 +36,10 @@
                             <td>@item.Id</td>
                             <td>@item.KategoriAd</td>
                             <td>
-                                <a href="#" class="btn btn-danger" data-kategori-sil="@item.Id">Sil</a>
+                                <a href="#" class="fas fa-trash" style="color:red; font-size:18px;" data-kategori-sil="@item.Id">Sil</a>
 
-                                <a href="@Url.Action("Duzenle", "Kategoriler", new { id = item.Id })" class="btn btn-info">Düzenle</a>
+                                <a href="@Url.Action("Duzenle", "Kategoriler", new { id = item.Id })" 
+                                   class="fas fa-edit" style="color:green; position:relative; left:15px; font-size:18px;">Düzenle</a>
                             </td>
                         </tr>
                     }

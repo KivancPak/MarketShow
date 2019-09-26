@@ -35,7 +35,7 @@
         @Html.Label("resim", "Ürün Görseli")
         <div>
             @Html.HiddenFor(x => x.ResimYolu)
-            @Html.UrunImg(Model.ResimYolu, new { height = "100", id = "UrunGorsel" })
+            @Html.UrunImg(Model.ResimYolu, new { height     = "100", id = "UrunGorsel" })
         </div>
         <input type="file" name="resim" id="resim" class="form-control-file" accept="image/*" />
         @Html.ValidationMessage("resim", null,

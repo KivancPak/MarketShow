@@ -45,9 +45,10 @@
                             <td>@item.Kategori.KategoriAd</td>
                             <td>@item.Aciklama</td>
                             <td>
-                                <a href="#" class="btn btn-danger" data-urun-sil="@item.Id">Sil</a>
+                                <a href="#" class="fas fa-trash" style="color:red; position:relative; font-size:18px;" data-urun-sil="@item.Id">Sil</a>
 
-                                <a href="@Url.Action("Duzenle", "Urunler", new { id = item.Id })" class="btn btn-info">Düzenle</a>
+                                <a href="@Url.Action("Duzenle", "Urunler", new { id = item.Id })" 
+                                   class="fas fa-edit" style="color:green;position:relative; left:10px; font-size:18px;">Düzenle</a>
                             </td>
                         </tr>
                     }

@@ -1,9 +1,31 @@
-﻿@model List<Kategori>
+﻿<style type="text/css">
+    a.ornek-link {
+        font-weight: bold;
+        color: black;
+        font-style: oblique;
+        font-family: Arial, Helvetica, sans-serif;
+        text-decoration: none;
+        vertical-align: baseline;
+        transition:transform 5s;
+    }
+
+        a.ornek-link:hover {
+            font-weight: bold;
+            color: maroon;
+            font-style: oblique;
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            vertical-align: baseline;
+            transform:rotateZ(360deg);
+        }
+        
+</style>
+@model List<Kategori>
 
 <div class="list-group">
     @foreach (var item in Model)
     {
-        <a href="@Url.Action("Index", "Home", new { kategoriId = item.Id })" class="list-group-item">
+        <a href="@Url.Action("Index", "Home", new { kategoriId = item.Id })" class="list-group-item ornek-link" style="font-size:15px; color:brown;">
             @item.KategoriAd
         </a>
     }
